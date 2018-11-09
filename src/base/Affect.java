@@ -6,15 +6,15 @@ package base;
 
 public class Affect {
 
-	private int duration; 	//Number of turns the affect has remaining.
+	private int duration;    //Number of turns the affect has remaining.
 	// Affects with -1 duration are permanent, but can be removed externally,
 	// Affects with -2 duration are granted by abilities or enchantments, and cannot be removed in battle
 
 
 	private Character user; //base.Character with this affect
 
-	private int stat;		//Numerical representation of stat effected
-	private int intensity;	//Amount raised or lowered
+	private int stat;        //Numerical representation of stat effected
+	private int intensity;    //Amount raised or lowered
 	private Boolean remove;
 
 	//STAT:
@@ -29,6 +29,15 @@ public class Affect {
 	// 12 - Light resistance
 	// 13 - Dark resistance
 
+
+	// *** Constructors ***
+	public Affect(int duration, int stat, int intensity, Character user) {
+		this.duration = duration;
+		this.user = user;
+		this.stat = stat;
+		this.intensity = intensity;
+		this.remove = false;
+	}
 
 	public int getDuration() {
 		return duration;
@@ -70,27 +79,18 @@ public class Affect {
 		this.remove = remove;
 	}
 
-	// *** Constructors ***
-	public Affect(int duration, int stat, int intensity, Character user) {
-		this.duration = duration;
-		this.user = user;
-		this.stat = stat;
-		this.intensity = intensity;
-		this.remove = false;
-	}
-
 	//De-increments this instance's duration
 	//Can be overridden for more advanced affects
-	public void tickDown(){
+	public void tickDown() {
 
 		//Ticks down duration if it is greater than zero
-		if(this.duration > 0){
+		if (this.duration > 0) {
 
 			this.duration -= 1;
 		}
 
 		//Marks affect for removal if its duration is zero
-		if(this.duration == 0){
+		if (this.duration == 0) {
 
 			this.remove = true;
 			this.intensity = 0;

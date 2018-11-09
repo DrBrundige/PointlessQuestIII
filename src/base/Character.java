@@ -58,10 +58,23 @@ public class Character {
 		this.classID = ClassID;
 		this.className = CharacterCreator.getClassNames(ClassID);
 		this.name = Name;
+		this.team = 0;
 
 		this.resetCharacter();
 		this.levelUp();
 
+	}
+
+	// Deprecated constructor that doesn't assign team
+	public Character(int ClassID, String Name, int level) {
+		this.classID = ClassID;
+		this.className = CharacterCreator.getClassNames(ClassID);
+		this.name = Name;
+		this.isDead = false;
+		this.team = 0;
+
+		this.resetCharacter();
+		this.hardSetLevel(level);
 	}
 
 //		Constructor - sets the character's name, class and level

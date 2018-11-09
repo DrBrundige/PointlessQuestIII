@@ -31,6 +31,12 @@ public class Round {
 		this.roundNo = roundNo;
 	}
 
+	// Constructor, creates empty niceMoves. Using this method, moves will be added individually
+	public Round(int roundNo) {
+		this.niceMoves = new ArrayList<Move>();
+		this.roundNo = roundNo;
+	}
+
 	// Getters and setters for niceMoves
 	public ArrayList<Move> getNiceMoves() {
 		return niceMoves;
@@ -40,12 +46,16 @@ public class Round {
 		this.niceMoves = niceMoves;
 	}
 
+	public void addMove(Move move){
+		niceMoves.add(move);
+	}
+
 	// Creates new ArrayList temp, adds moves from niceMoves to it ordered by caster's speed
 	//  reassigns temp to niceMoves
 	// Called by Battle, returns nothing, recieves nothing
 	public void sortSpeeds() {
 
-		System.out.println("BEGIN: SORT SPEEDS");
+//		System.out.println("BEGIN: SORT SPEEDS");
 		this.printMoves();
 
 		ArrayList<Move> temp = new ArrayList<Move>();
@@ -58,7 +68,7 @@ public class Round {
 
 		while (i < niceMoves.size()) {
 
-			System.out.println("Reiterating.");
+//			System.out.println("Reiterating.");
 			y = true;
 
 			while (y) {
@@ -69,14 +79,14 @@ public class Round {
 
 					if (niceMoves.get(i).getSpeed() > temp.get(x).getCalcedSpeed()) {
 
-						System.out.println("Adding " + niceMoves.get(i).getCaster() + " to spot " + x);
+//						System.out.println("Adding " + niceMoves.get(i).getCaster() + " to spot " + x);
 						temp.add(x, niceMoves.get(i));
 						y = false;
 					}
 					//X has cycled through temp, meaning nicemoves.i should be added to the end
 					//The only way to check for this is to let it overflow lol
 				} catch (Exception E) {
-					System.out.println("Adding " + niceMoves.get(i).getCaster() + " to spot " + x);
+//					System.out.println("Adding " + niceMoves.get(i).getCaster() + " to spot " + x);
 					temp.add(x, niceMoves.get(i));
 					y = false;
 
@@ -91,9 +101,9 @@ public class Round {
 
 		niceMoves = temp;
 
-		System.out.println();
-		System.out.println("Sorting Complete! New Order: ");
-		this.printMoves();
+//		System.out.println();
+//		System.out.println("Sorting Complete! New Order: ");
+//		this.printMoves();
 		//end of sort speeds
 	}
 

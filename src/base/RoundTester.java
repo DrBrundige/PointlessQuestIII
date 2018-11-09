@@ -48,12 +48,10 @@ public class RoundTester {
 		Character Berserk = new Character(0, "Jormund", 3, 1);
 		Character Assassin = new Character(4, "Julius", 3, 1);
 
-
 		Vanguard.fullRestore();
 		Pyromancer.fullRestore();
 		Berserk.fullRestore();
 		Assassin.fullRestore();
-
 
 		Move move1 = new Move(Vanguard, Berserk, 0);
 		Move move2 = new MoveFireball(Pyromancer, Berserk, 0);

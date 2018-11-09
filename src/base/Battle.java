@@ -1,5 +1,7 @@
 package base;
 
+import moves.Move;
+
 import java.util.ArrayList;
 
 // base.Character.Java, from Pointless Quest III
@@ -36,13 +38,29 @@ public class Battle {
 		this.combatants = combatants;
 	}
 
-	public static void fight() {
+	public void fight() {
 
-		int rounds = 1;
+		int rnds = 1;
 
 //		While keepFighting is true
+		while(keepFighting){
+
+			Round newRound = new Round(rnds);
+
+			addPlayerMoves(newRound);
+
+			newRound.sortSpeeds();
+			newRound.fireAll();
+
+			rnds += 1;
+			if(rnds > 16) break;
+
+			keepFighting = shouldKeepFighting();
+		}
 //
 //		Create new round
+//		Add player moves
+//      Add AI moves
 //
 //		round1.sortSpeeds();
 //		round1.fireAll();
@@ -51,21 +69,31 @@ public class Battle {
 
 	}
 
-	private boolean shouldKeepFighting(){
+	// Test method. Plans for interface to draw players moves. For now, adds basic attacks
+	public void addPlayerMoves(Round niceRound){
+
+		Move move1 = new Move(combatants.get(0), combatants.get(1), 0);
+		niceRound.addMove(move1);
+		move1 = new Move(combatants.get(1), combatants.get(0), 0);
+		niceRound.addMove(move1);
+
+	}
+
+	private boolean shouldKeepFighting() {
 
 		// creates an int[] where each element represents one team
 		int[] teams = new int[noTeams];
 		int aliveTeams = 0; // number of teams with active characters
 
 		// Assigns all elements in teams to 0
-		for(int team : teams){
+		for (int team : teams) {
 			team = 0;
 		}
 
 		// cycles through combatants. If combatant is alive, increment int[team]
-		for( Character c : combatants){
+		for (Character c : combatants) {
 
-			if(c.isDead() == false){
+			if (c.isDead() == false) {
 				teams[c.getTeam()] += 1;
 			}
 
@@ -74,11 +102,11 @@ public class Battle {
 		// cycles through int[]. If number of teams with characters alive is greater than 1
 		//  the battle continues
 
-		for(int team : teams){
-			if(team > 0) aliveTeams += 1;
+		for (int team : teams) {
+			if (team > 0) aliveTeams += 1;
 		}
 
-		if(aliveTeams > 1){
+		if (aliveTeams > 1) {
 			return true;
 		} else {
 			return false;
