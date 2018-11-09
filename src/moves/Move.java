@@ -14,9 +14,9 @@ public class Move {
 	//base.Round  - the round in which this iteration of the move was used
 	protected Character caster;
 	protected Character target;
-	protected String 	moveName;
-	protected int 		speed;
-	protected int 		round;
+	protected String moveName;
+	protected int speed;
+	protected int round;
 
 
 	//Default constructor the use of which I cannot imagine.
@@ -32,8 +32,8 @@ public class Move {
 		this.caster = caster;
 		this.target = target;
 		this.moveName = "Basic Attack";
-		this.speed 	= caster.getsSpeed();
-		this.round 	= round;
+		this.speed = caster.getsSpeed();
+		this.round = round;
 	}
 
 	public Character getCaster() {
@@ -68,7 +68,7 @@ public class Move {
 		this.moveName = moveName;
 	}
 
-	public int getCalcedSpeed(){
+	public int getCalcedSpeed() {
 
 		int newSpeed = speed + caster.calcBuff(2);
 
@@ -76,18 +76,24 @@ public class Move {
 	}
 
 
-
-	public String toString(){
+	public String toString() {
 
 		String coolString = caster.getName() + " uses basic attack on " + target.getName();
 		coolString += "\nAttack: " + caster.getsAttack();
 		coolString += "\nDefense " + target.getsDefense();
+		coolString += "\nSpeed:" + getCalcedSpeed();
 
 		return coolString;
 	}
 
+	public void print(){
+
+		System.out.println(caster.getName() + " uses " + moveName +
+				" on " + target.getName() + ". Speed: " + getCalcedSpeed());
+	}
+
 	//Fires the move. This is overriden by other moves
-	public void fire(){
+	public void fire() {
 
 		//Calculates damage dealt
 		int damage = calcDamage();
@@ -104,17 +110,17 @@ public class Move {
 	}
 
 	//Calculates damage of the move. I may need to change en masse later
-	protected int calcDamage(){
+	protected int calcDamage() {
 
 		//Damage is calculated by cutting targets defense in half, then subtracting it from user's attack
 		//The damage is then cut in half again.
 
 		int attack = caster.getsAttack() + caster.calcBuff(0);
 		int defense = target.getsDefense() + target.calcBuff(1);
-		int damage = attack - (defense/2);
+		int damage = attack - (defense / 2);
 
 		damage = damage / 2;
-		damage = damage - (damage % 5);		// Rounds damage down to nearest multiple of five
+		damage = damage - (damage % 5);        // Rounds damage down to nearest multiple of five
 		damage = (damage > 10) ? damage : 10; // Sets damage to ten, if it is less than ten
 
 		/*
@@ -127,9 +133,9 @@ public class Move {
 	}
 
 	//Prints target health remaining to finish out move
-	protected void printHealthRemaining(){
+	protected void printHealthRemaining() {
 
-		if(target.getCurrentHP() <= 0){
+		if (target.getCurrentHP() <= 0) {
 
 			target.setCurrentHP(0);
 
@@ -138,7 +144,7 @@ public class Move {
 
 			//Increments caster's kill count appropriately
 			caster.setKills((caster.getKills() + 1));
-		}else{
+		} else {
 
 			System.out.println(target.getName() + " now has " +
 					target.getCurrentHP() + " health remaining.");

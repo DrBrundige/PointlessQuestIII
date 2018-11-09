@@ -1,19 +1,19 @@
 package base;
 
-//base.Character.Java, from Pointless Quest III
-//Copywrite 2018 Thomas Jones
-//This slightly important class describes Characters
+// base.Character.Java, from Pointless Quest III
+// Copywrite 2018 Thomas Jones
+// This slightly important class describes Characters
 
 import java.util.ArrayList;
 
 public class Character {
 
-	//Static character fields
+	// Static character fields
 	private int classID;
 	private String className;
 	private String name;
 
-	//Dynamic fields
+	// Dynamic fields
 	private int level;
 	private int exp;
 	private int currentHP;
@@ -21,63 +21,66 @@ public class Character {
 	private int kills;
 	private boolean isDead;
 
-	//Stats
+	private int team; // range: 0-7
+
+	// Stats
 	private int sMaxHP;
 	private int sMaxSP;
 	private int sHPRegen;
-	private int	sSPRegen;
+	private int sSPRegen;
 	private int sAttack;
 	private int sDefense;
 	private int sSpeed;
 
-	//Active Effects
+	// Active Effects
 	private ArrayList<Affect> characterAffects = new ArrayList<Affect>();
 
 
 	// ***CONSTRUCTORS***
 
-	//Empty Constructor - sets the class to Berserk, name to nothing and stats to 0
+	// Empty Constructor - sets the class to Berserk, name to nothing and stats to 0
 	public Character() {
 
-		this.classID 	= 0;
-		this.className 	= "";
-		this.name 		= "";
+		this.classID = 0;
+		this.className = "";
+		this.name = "";
 
 		this.resetCharacter();
 
 	}
 
-	//Constructor - sets the character's name and class, and level to zero
-	//This is used for creating new player characters
-	//@param ClassId, numeric value that determines the character's class
-	//@param Name, the character's name
+	//	Constructor - sets the character's name and class, and level to zero
+//	This is used for creating new player characters
+//	@param ClassId, numeric value that determines the character's class
+//	@param Name, the character's name
 	public Character(int ClassID, String Name) {
 
-		this.classID 	= ClassID;
-		this.className 	= CharacterCreator.getClassNames(ClassID);
-		this.name 		= Name;
+		this.classID = ClassID;
+		this.className = CharacterCreator.getClassNames(ClassID);
+		this.name = Name;
 
 		this.resetCharacter();
 		this.levelUp();
 
 	}
 
-	//Constructor - sets the character's name, class and level
-	//This is used for creating new enemies and having them jump directly to a specified level
-	//@param level, hard sets the character's level to that value
-	public Character(int ClassID, String Name, int level) {
+//		Constructor - sets the character's name, class and level
+//	This is used for creating new enemies and having them jump directly to a specified level
+//	@param level, hard sets the character's level to that value
+	public Character(int ClassID, String Name, int level, int team) {
 
-		this.classID 	= ClassID;
-		this.className 	= CharacterCreator.getClassNames(ClassID);
-		this.name 		= Name;
-		this.isDead		= false;
+		this.classID = ClassID;
+		this.className = CharacterCreator.getClassNames(ClassID);
+		this.name = Name;
+		this.isDead = false;
+		this.team = team;
 
 		this.resetCharacter();
 		this.hardSetLevel(level);
 
 	}
 
-	private void resetCharacter(){
+	private void resetCharacter() {
 
 		this.setLevel(0);
 		this.setExp(0);
@@ -97,12 +100,12 @@ public class Character {
 
 	}
 
-	protected void hardSetLevel(int level){
+	protected void hardSetLevel(int level) {
 
 		System.out.println("Setting the level of " + this.getName() + " to " + level
 				+ ". Level is currently " + this.getLevel());
 
-		if(level < 0){
+		if (level < 0) {
 			System.out.println("ERROR: int level is less than 0");
 			return;
 		}
@@ -112,13 +115,13 @@ public class Character {
 		int i = this.getLevel();
 
 		//If i is less than level, it is presumed the intent is to lower character's level
-		if(i > level){
+		if (i > level) {
 			System.out.println("i is less than level, resetting base.Character");
 			this.resetCharacter();
 			i = this.getLevel();
 		}
 
-		while(i < level){
+		while (i < level) {
 
 			this.levelUp();
 			i = this.getLevel();
@@ -195,11 +198,19 @@ public class Character {
 		isDead = dead;
 	}
 
+	public int getTeam() {
+		return team;
+	}
+
+	public void setTeam(int team) {
+		this.team = team;
+	}
+
 	public void checkDead() {
-		if(this.sMaxHP <= 0){
+		if (this.sMaxHP <= 0) {
 
 			this.isDead = true;
-		}else {
+		} else {
 
 			this.isDead = false;
 		}
@@ -279,13 +290,13 @@ public class Character {
 	}
 
 	//Returns an individual affect at index i
-	public Affect getAffect(int i){
+	public Affect getAffect(int i) {
 
 		return characterAffects.get(i);
 	}
 
 	//Returns characterAffects.size
-	public int getNumAffects(){
+	public int getNumAffects() {
 
 		return characterAffects.size();
 	}
@@ -293,7 +304,7 @@ public class Character {
 	//Other stuff
 
 	//Prints a detailed stats list
-	public void printCharacter(){
+	public void printCharacter() {
 
 		System.out.println();
 		System.out.println("CHARACTER DETAILS");
@@ -315,7 +326,7 @@ public class Character {
 	}
 
 	//Condensed version of printCharacter
-	public void printStats(){
+	public void printStats() {
 
 		System.out.println("name: 		" + this.name);
 		System.out.println("maxHP:		" + this.sMaxHP);
@@ -328,26 +339,26 @@ public class Character {
 	}
 
 	//Returns the character's name, level and class
-	public String toString(){
+	public String toString() {
 		String returnString = this.getName();
-		returnString += ": Lv. " + this.getLevel() + " " + this.getClassName() ;
+		returnString += ": Lv. " + this.getLevel() + " " + this.getClassName();
 
 		return returnString;
 	}
 
 	//Increments the character's stats
-	public void levelUp(){
+	public void levelUp() {
 
 		//System.out.println("Levelling up " + this.getName() +
 		//		" Level is now: " + (this.getLevel() + 1));
 
 		int ID = this.getClassID();
 
-		int[] maxHP = {40,40,40,40,20,30,20,20,30,30,30,30};
-		int[] maxSP = {20,30,30,30,30,30,40,40,50,40,40,40};
-		int[] attck	= {50,30,40,30,30,40,30,30,10,20,30,30};
-		int[] def	= {20,50,20,40,20,20,20,20,20,20,30,30};
-		int[] speed	= {20,10,30,20,50,40,40,40,30,20,30,30};
+		int[] maxHP = {40, 40, 40, 40, 20, 30, 20, 20, 30, 30, 30, 30};
+		int[] maxSP = {20, 30, 30, 30, 30, 30, 40, 40, 50, 40, 40, 40};
+		int[] attck = {50, 30, 40, 30, 30, 40, 30, 30, 10, 20, 30, 30};
+		int[] def = {20, 50, 20, 40, 20, 20, 20, 20, 20, 20, 30, 30};
+		int[] speed = {20, 10, 30, 20, 50, 40, 40, 40, 30, 20, 30, 30};
 
 		int x = this.getLevel() + 1;
 		this.setLevel(x);
@@ -370,10 +381,10 @@ public class Character {
 		x = this.getsSpeed() + speed[ID];
 		this.setsSpeed(x);
 
-		}
+	}
 
 	//Returns character's health and stamina to maximum
-	public void fullRestore(){
+	public void fullRestore() {
 
 		this.setCurrentHP(this.getsMaxHP());
 		this.setCurrentSP(this.getsMaxSP());
@@ -383,17 +394,17 @@ public class Character {
 	//Affect Stuff
 
 	//Adds a new affect to character
-	public void addAffect(int duration, int stat, int intensity){
+	public void addAffect(int duration, int stat, int intensity) {
 
 		Affect newAffect = new Affect(duration, stat, intensity, this);
 		characterAffects.add(newAffect);
 	}
 
 	//Calculates the total affect all buffs and debuffs have on a given stat
-	public int calcBuff(int stat){
+	public int calcBuff(int stat) {
 
 		//Closes out loop early if characterAffects is empty
-		if(characterAffects.isEmpty()){
+		if (characterAffects.isEmpty()) {
 
 			//System.out.println("base.Character has no active affects!");
 			return 0;
@@ -402,8 +413,8 @@ public class Character {
 		int buff = 0;
 
 		//For loop cycles through the contents of characterAffects
-		for(int x = 0; x < characterAffects.size(); x++){
-			if(characterAffects.get(x).getStat() == stat) {
+		for (int x = 0; x < characterAffects.size(); x++) {
+			if (characterAffects.get(x).getStat() == stat) {
 
 				buff += characterAffects.get(x).getIntensity();
 
@@ -414,13 +425,13 @@ public class Character {
 	}
 
 	//Deincrements all transient affects, removes expired affects
-	public void deincrementAffects(){
+	public void deincrementAffects() {
 
-		for(int x = 0; x < characterAffects.size(); x++){
+		for (int x = 0; x < characterAffects.size(); x++) {
 			characterAffects.get(x).tickDown();
 
 			//If remove is true, removes the affect from the ArrayList
-			if(characterAffects.get(x).getRemove()){
+			if (characterAffects.get(x).getRemove()) {
 
 				System.out.println("Removing affect for: " + this.name);
 				characterAffects.remove(x);
@@ -429,12 +440,12 @@ public class Character {
 	}
 
 	//Clears character of all normal affects
-	public void clearAffects(){
+	public void clearAffects() {
 
-		for(int x = 0; x < characterAffects.size(); x++){
+		for (int x = 0; x < characterAffects.size(); x++) {
 
 			//If duration is >= -1, removes the affect from the ArrayList
-			if(characterAffects.get(x).getDuration() >= -1){
+			if (characterAffects.get(x).getDuration() >= -1) {
 				characterAffects.remove(x);
 			}
 		}

@@ -1,4 +1,5 @@
 .DS_Store
 out
 .idea
-src\com\otherstuff
+src/com/otherstuff/*
+

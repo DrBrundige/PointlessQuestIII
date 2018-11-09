@@ -8,7 +8,7 @@ import base.Character;
 //This is a dynamic move - the flavor text changing based on the caster's classid,
 // but the guts remain the same
 
-public class MoveAxeThrow extends Move{
+public class MoveAxeThrow extends Move {
 
 	private String weapon;
 
@@ -17,7 +17,7 @@ public class MoveAxeThrow extends Move{
 		this.caster = null;
 		this.target = null;
 		this.moveName = "";
-		this.weapon   = "";
+		this.weapon = "";
 		this.speed = 0;
 		this.round = 0;
 	}
@@ -26,7 +26,7 @@ public class MoveAxeThrow extends Move{
 		this.caster = caster;
 		this.target = target;
 
-		switch (this.caster.getClassID()){
+		switch (this.caster.getClassID()) {
 
 			case 0:
 			case 1:
@@ -63,11 +63,11 @@ public class MoveAxeThrow extends Move{
 				break;
 		}
 
-		this.speed 	= caster.getsSpeed() + 1000; //Increases move speed by 1000
-		this.round 	= round;
+		this.speed = caster.getsSpeed() + 1000; //Increases move speed by 1000
+		this.round = round;
 	}
 
-	public String toString(){
+	public String toString() {
 
 		String coolString = caster.getName() + " uses basic attack on " + target.getName();
 		coolString += "\nAttacks first";
@@ -78,7 +78,7 @@ public class MoveAxeThrow extends Move{
 	}
 
 	//Performs the move
-	public void fire(){
+	public void fire() {
 
 		int damage = calcDamage();
 
@@ -86,7 +86,7 @@ public class MoveAxeThrow extends Move{
 		target.setCurrentHP(remaining);
 
 		System.out.println();
-		System.out.println(caster.getName() + " hits " + target.getName() + " with a " + this.weapon +" for " + damage + " damage!");
+		System.out.println(caster.getName() + " hits " + target.getName() + " with a " + this.weapon + " for " + damage + " damage!");
 
 		printHealthRemaining();
 

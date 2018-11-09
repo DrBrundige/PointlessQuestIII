@@ -8,8 +8,8 @@ public class MoveFireball extends Move {
 		this.caster = caster;
 		this.target = target;
 		this.moveName = "Fireball";
-		this.speed 	= caster.getsSpeed();
-		this.round 	= round;
+		this.speed = caster.getsSpeed();
+		this.round = round;
 	}
 
 	@Override

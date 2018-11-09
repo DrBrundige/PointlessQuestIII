@@ -8,8 +8,8 @@ public class MoveBladeDance extends Move {
 		this.caster = caster;
 		this.target = target;
 		this.moveName = "Blade Dance";
-		this.speed 	= caster.getsSpeed();
-		this.round 	= round;
+		this.speed = caster.getsSpeed();
+		this.round = round;
 	}
 
 	@Override
@@ -20,14 +20,14 @@ public class MoveBladeDance extends Move {
 
 		System.out.println(caster.getName() + " a lets loose a flurry of sword strikes at " + target.getName());
 
-		if(speedRatio < 2){
+		if (speedRatio < 2) {
 
 			System.out.println(caster.getName() + " Attacks once for " + damage + " damage!");
-		}else if (speedRatio >= 2 && speedRatio < 3) {
+		} else if (speedRatio >= 2 && speedRatio < 3) {
 
 			damage *= 2;
 			System.out.println(caster.getName() + " Attacks twice for " + damage + " damage!");
-		}else if(speedRatio >= 3){
+		} else if (speedRatio >= 3) {
 
 			damage *= 3;
 			System.out.println(caster.getName() + " Attacks three times for " + damage + " damage!");
